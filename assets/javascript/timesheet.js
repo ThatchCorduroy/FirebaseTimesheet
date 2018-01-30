@@ -47,6 +47,8 @@ var dateAdded = firebase.database.ServerValue.TIMESTAMP
 
 
     $("#submit-btn").on("click", function(event) {
+
+        console.log(firebase.database.ServerValue.TIMESTAMP);
         
         
         event.preventDefault();
@@ -56,13 +58,14 @@ var dateAdded = firebase.database.ServerValue.TIMESTAMP
         role = $("#role-input").val().trim();
         startdate = $("#start-date").val().trim();
         monthrate = $("#monthly-rate").val().trim();
-        dateAdded = firebase.database.ServerValue.TIMESTAMP
+        dateAdded = firebase.database.ServerValue.TIMESTAMP;
 
         database.ref().push({
             name: name,
             role: role,
             startdate: startdate,
-            monthrate: monthrate
+            monthrate: monthrate,
+            dateAdded: dateAdded
         });
 
         $("#name-input").text(name);
@@ -84,7 +87,36 @@ var dateAdded = firebase.database.ServerValue.TIMESTAMP
 
 // });
 
-database.ref().on("child_added", function(childSnapshot) {
-    console.log(childSnapshot);
-})
+// database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+//     // Change the HTML to reflect
+//     $("#name-display").text(snapshot.val().name);
+//     $("#email-display").text(snapshot.val().email);
+//     $("#age-display").text(snapshot.val().age);
+//     $("#comment-display").text(snapshot.val().comment);
+//   });
+
+    database.ref().on("child_added", function(childSnapshot) {
+        console.log(childSnapshot.val());
+
+        newTr = $("<tr>");
+
+        nametd = $("<td>");
+        emailtd = $("<td>");
+        startdatetd = $("<td>");
+        monthratetd = $("<td>");
+        dateAddedtd = $("<td>");
+
+        nametd.text(childSnapshot.val().name);
+        emailtd.text(childSnapshot.val().email);
+        startdatetd.text(childSnapshot.val().startdate);
+        monthratetd.text(childSnapshot.val().monthrate);
+        dateAddedtd.text(childSnapshot.val().dateAdded);
+
+        newTr.append(nametd);
+        newTr.append(emailtd);
+        newTr.append(startdatetd);
+        newTr.append(monthratetd);
+        
+        $("#table").append(newTr);
+    })
 });
