@@ -9,11 +9,11 @@
 </head>
 <body>
   <div class=container>
-    <div class=jumbotron>
+    <div class=jumbotron style="text-align: center;">
 			<h1>TimeSheet</h1>
 		</div>
+		<div class=panelheading style="background-color: blue; color: white; padding: 2px;">Add Eployee</div>
 		<form  style= "border: solid; padding: 5px;">
-			<div class=panelheading></div>
 			<div class="form-group">
 				<label for="name">Name:</label>
 				<input type="text" class="form-control" id="name-input" placeholder="Name">
@@ -28,9 +28,9 @@
 			</div>
 			<div class="form-group">
 				<label for="start-date">Monthly Rate:</label>
-				<input type="text" class="form-control" id="monthly-date" placeholder="ex. 01/01/80">
+				<input type="text" class="form-control" id="monthly-rate" placeholder="">
 			</div>
-			<button type="submit" class="btn btn-default">Submit</button>
+			<button type="submit" class="btn btn-default" id="submit-btn">Submit</button>
 		</form>
   </div>
 	
