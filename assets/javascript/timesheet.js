@@ -1,3 +1,4 @@
+$(document).ready(function() {
 var config = {
     apiKey: "AIzaSyAHCh5a-sDrq8RjLQG1yppDEhtkJPtssxY",
     authDomain: "fir-timesheet.firebaseapp.com",
@@ -6,7 +7,8 @@ var config = {
     storageBucket: "",
     messagingSenderId: "152686991934"
   };
-  firebase.initializeApp(config);
+  
+firebase.initializeApp(config);
 
 var database = firebase.database();
 
@@ -16,57 +18,73 @@ var startdate = "01/01/70"
 var monthrate = 0
 var dateAdded = firebase.database.ServerValue.TIMESTAMP
 
+// database.ref().on("value", function(snapshot) {
+//     var data = snapshot.val();
+//     console.log("here");
+// });
 
-database.ref().on("value", function(snapshot) {
-    var data = snapshot.val();
 
-    if (data.child("name").exists() && data.child("highestPrice").exists()) {
-        highPrice = data.price;
-        highBidder = data.bidder;
+// database.ref().on("value", function(snapshot) {
+//     var data = snapshot.val();
 
-        $("#highest-price").text(data.price);
-        $("#highest-bidder").text(data.bidder);
+//     if (data.child("name").exists() && data.child("highestPrice").exists()) {
+//         highPrice = data.price;
+//         highBidder = data.bidder;
+
+//         $("#highest-price").text(data.price);
+//         $("#highest-bidder").text(data.bidder);
         
-        console.log("New highPrice", highPrice, "New highBidder", highBidder);
-    } else { 
-        $("#highest-price").text(initialBid);
-        $("#highest-bidder").text(initialBidder);
+//         console.log("New highPrice", highPrice, "New highBidder", highBidder);
+//     } else { 
+//         $("#highest-price").text(initialBid);
+//         $("#highest-bidder").text(initialBidder);
   
-        console.log("No new highPrice", highPrice, "No new highBidder", highBidder);
-    }
-});
+//         console.log("No new highPrice", highPrice, "No new highBidder", highBidder);
+//     }
+// });
 
 // --------------------------------------------------------------
-$("#submit").on("click", function() {
-    event.preventDefault();
 
-    var name = $("#name-input").val().trim();
-    var role = $("#role-input").val().trim();
-    var startdate = $("#start-date").val().trim();
-    var monthrate = $("#monthly-rate").val().trim();
-    var dateAdded = firebase.database.ServerValue.TIMESTAMP
 
-    database.ref().push({
-        name: name,
-        role: role,
-        startdate: startdate,
-        monthrate: monthrate
+    $("#submit-btn").on("click", function(event) {
+        
+        
+        event.preventDefault();
+        console.log("sawClick");    
+
+        name = $("#name-input").val().trim();
+        role = $("#role-input").val().trim();
+        startdate = $("#start-date").val().trim();
+        monthrate = $("#monthly-rate").val().trim();
+        dateAdded = firebase.database.ServerValue.TIMESTAMP
+
+        database.ref().push({
+            name: name,
+            role: role,
+            startdate: startdate,
+            monthrate: monthrate
+        });
+
+        $("#name-input").text(name);
+        $("#role-input").text(role);
+        $("#start-date").text(startdate);
+        $("#monthly-rate").text(monthrate);
     });
 
-    $("#name-input").text(name);
-    $("#role-input").text(role);
-    $("#start-date").text(startdate);
-    $("#monthly-rate").text(monthrate);
-});
 
 
-database.ref().push({
 
-});
+// database.ref().push({
 
-database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function() {
-    var sv = snapshot.val()
+// });
+
+// database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function() {
+//     var sv = snapshot.val()
 
 
+// });
+
+database.ref().on("child_added", function(childSnapshot) {
+    console.log(childSnapshot);
 })
-
+});
